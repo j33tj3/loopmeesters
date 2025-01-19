@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPolls = async () => {
-  const response = await fetch("http://ben-erbij.guidodiepen.nl:9898/polls/");
+  const response = await fetch("/api/polls");
   if (!response.ok) {
     throw new Error("Failed to fetch polls");
   }
