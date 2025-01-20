@@ -10,8 +10,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const PollsList = () => {
+  const router = useRouter();
   const { data, isLoading, error } = usePolls();
 
   if (isLoading)
@@ -27,25 +29,31 @@ const PollsList = () => {
 
   const { result } = data;
 
+  const desktopOnly = { display: { xs: "none", sm: "table-cell" } };
+
   return (
     <Box component="div" className="relative  w-full h-full">
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell>Time</TableCell>
-            <TableCell>Trainer</TableCell>
-            <TableCell>Location</TableCell>
+            <TableCell sx={desktopOnly}>Time</TableCell>
+            <TableCell sx={desktopOnly}>Trainer</TableCell>
+            <TableCell sx={desktopOnly}>Location</TableCell>
             <TableCell>Title</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {result.map((poll: Poll) => (
-            <TableRow key={poll.id}>
+            <TableRow
+              key={poll.id}
+              onClick={() => router.push(`/${poll.id}`)}
+              className="cursor-pointer hover:bg-blue-100"
+            >
               <TableCell>{poll.date}</TableCell>
-              <TableCell>{poll.time}</TableCell>
-              <TableCell>{poll.trainer}</TableCell>
-              <TableCell>{poll.location}</TableCell>
+              <TableCell sx={desktopOnly}>{poll.time}</TableCell>
+              <TableCell sx={desktopOnly}>{poll.trainer}</TableCell>
+              <TableCell sx={desktopOnly}>{poll.location}</TableCell>
               <TableCell>{poll.title}</TableCell>
             </TableRow>
           ))}
