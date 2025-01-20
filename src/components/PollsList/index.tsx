@@ -1,6 +1,6 @@
 "use client";
 
-import { Poll, usePolls } from "@/hooks/usePolls";
+import { Poll, usePolls } from "@/utils/usePolls";
 import {
   Box,
   CircularProgress,
