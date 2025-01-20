@@ -1,5 +1,5 @@
 export default async function PollPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params;
 
   return <>{id}</>;
 }
