@@ -11,13 +11,15 @@ import {
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { todaysDate } from "@/utils/utils";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const Form = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
     title: "",
-    date: todaysDate(), // TODO: Add date picker
+    date: todaysDate(),
     time: "",
     trainer: "",
     is_training: true,
@@ -63,8 +65,13 @@ const Form = () => {
     }
   };
 
+  console.log(formData);
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+    >
       <TextField
         label="Titel"
         name="title"
@@ -72,9 +79,18 @@ const Form = () => {
         onChange={handleChange}
         fullWidth
         required
-        margin="normal"
       />
-      {/* TODO: Add date picker */}
+      <DatePicker
+        onChange={(newValue) =>
+          setFormData((prevData) => ({
+            ...prevData,
+            date: newValue ? newValue.format("YYYY-MM-DD") : todaysDate(),
+          }))
+        }
+        value={dayjs(formData.date)}
+        sx={{ width: "100% " }}
+      />
+      {/* TODO: Replace below with Time Picker */}
       <TextField
         label="Time"
         name="time"
@@ -82,7 +98,6 @@ const Form = () => {
         onChange={handleChange}
         fullWidth
         required
-        margin="normal"
       />
       <TextField
         label="Trainer"
@@ -91,7 +106,6 @@ const Form = () => {
         onChange={handleChange}
         fullWidth
         required
-        margin="normal"
       />
       <TextField
         label="Location"
@@ -100,7 +114,6 @@ const Form = () => {
         onChange={handleChange}
         fullWidth
         required
-        margin="normal"
       />
       <FormControlLabel
         control={
@@ -124,7 +137,6 @@ const Form = () => {
               value={formData.options[index]}
               fullWidth
               required
-              margin="normal"
               onChange={(e) => handleOptionChange(e, index)}
             />
             <Button
