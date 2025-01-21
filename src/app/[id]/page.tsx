@@ -1,3 +1,5 @@
+import { PollById } from "@/components/PollById";
+
 export default async function PollPage({
   params,
 }: {
@@ -5,5 +7,5 @@ export default async function PollPage({
 }) {
   const { id } = await params;
 
-  return <>{id}</>;
+  return <PollById id={id} />;
 }

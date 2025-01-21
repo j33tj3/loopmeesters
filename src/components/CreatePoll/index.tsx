@@ -17,7 +17,7 @@ const Form = () => {
 
   const [formData, setFormData] = useState({
     title: "",
-    date: todaysDate(),
+    date: todaysDate(), // TODO: Add date picker
     time: "",
     trainer: "",
     is_training: true,
@@ -74,6 +74,7 @@ const Form = () => {
         required
         margin="normal"
       />
+      {/* TODO: Add date picker */}
       <TextField
         label="Time"
         name="time"
@@ -113,15 +114,16 @@ const Form = () => {
         }
         label="Is Training?"
       />
-      {formData.options.map((option, index) => {
+      {formData.options.map((_option, index) => {
         const number = index + 1;
         return (
-          <Box key={index}>
+          <Box key={index} sx={{ marginBottom: 2 }}>
             <TextField
               label={`Option ${number}`}
               name={`option-${number}`}
               value={formData.options[index]}
               fullWidth
+              required
               margin="normal"
               onChange={(e) => handleOptionChange(e, index)}
             />
