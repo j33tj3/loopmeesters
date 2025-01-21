@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { todaysDate } from "@/utils/utils";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, DesktopTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 const Form = () => {
@@ -81,6 +81,7 @@ const Form = () => {
         required
       />
       <DatePicker
+        label="Date"
         onChange={(newValue) =>
           setFormData((prevData) => ({
             ...prevData,
@@ -90,14 +91,20 @@ const Form = () => {
         value={dayjs(formData.date)}
         sx={{ width: "100% " }}
       />
-      {/* TODO: Replace below with Time Picker */}
-      <TextField
+      <DesktopTimePicker
         label="Time"
-        name="time"
-        value={formData.time}
-        onChange={handleChange}
-        fullWidth
-        required
+        ampm={false}
+        value={
+          formData.time
+            ? dayjs(formData.time, "HH:mm")
+            : dayjs("09:00", "HH:mm")
+        }
+        onChange={(newValue) =>
+          setFormData((prevData) => ({
+            ...prevData,
+            time: newValue ? newValue.format("HH:mm") : "",
+          }))
+        }
       />
       <TextField
         label="Trainer"
@@ -130,7 +137,7 @@ const Form = () => {
       {formData.options.map((_option, index) => {
         const number = index + 1;
         return (
-          <Box key={index} sx={{ marginBottom: 2 }}>
+          <Box key={index}>
             <TextField
               label={`Option ${number}`}
               name={`option-${number}`}
@@ -139,19 +146,21 @@ const Form = () => {
               required
               onChange={(e) => handleOptionChange(e, index)}
             />
-            <Button
-              type="button"
-              onClick={() => {
-                const newOptions = [...formData.options];
-                newOptions.splice(index, 1);
-                setFormData((prevData) => ({
-                  ...prevData,
-                  options: newOptions,
-                }));
-              }}
-            >
-              Remove Option
-            </Button>
+            {formData.options.length !== 1 && (
+              <Button
+                type="button"
+                onClick={() => {
+                  const newOptions = [...formData.options];
+                  newOptions.splice(index, 1);
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    options: newOptions,
+                  }));
+                }}
+              >
+                Remove Option
+              </Button>
+            )}
           </Box>
         );
       })}
@@ -164,13 +173,7 @@ const Form = () => {
       >
         Add Option
       </Button>
-      <Button
-        type="submit"
-        variant="contained"
-        size="large"
-        fullWidth
-        sx={{ marginTop: 2 }}
-      >
+      <Button type="submit" variant="contained" size="large" fullWidth>
         Submit
       </Button>
     </Box>
