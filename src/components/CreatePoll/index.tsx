@@ -20,7 +20,7 @@ const Form = () => {
   const [formData, setFormData] = useState({
     title: "",
     date: todaysDate(),
-    time: "",
+    time: dayjs(`${todaysDate()}T09:00`).format("HH:mm"),
     trainer: "",
     is_training: true,
     location: "",
@@ -65,7 +65,6 @@ const Form = () => {
     }
   };
 
-  console.log(formData);
   return (
     <Box
       component="form"
@@ -94,17 +93,13 @@ const Form = () => {
       <DesktopTimePicker
         label="Time"
         ampm={false}
-        value={
-          formData.time
-            ? dayjs(formData.time, "HH:mm")
-            : dayjs("09:00", "HH:mm")
-        }
-        onChange={(newValue) =>
+        value={dayjs(`${formData.date}T${formData.time}`)}
+        onChange={(newValue) => {
           setFormData((prevData) => ({
             ...prevData,
             time: newValue ? newValue.format("HH:mm") : "",
-          }))
-        }
+          }));
+        }}
       />
       <TextField
         label="Trainer"
