@@ -57,8 +57,11 @@ const Form = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      await axios.post("http://ben-erbij.guidodiepen.nl:9898/polls", formData);
-      router.push("/");
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BASIC_API_URL}/polls/`,
+        formData
+      );
+      router.push("/polls");
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Failed to submit poll");
@@ -163,8 +166,8 @@ const Form = () => {
         type="button"
         variant="outlined"
         size="large"
-        onClick={handleAddOption}
         fullWidth
+        onClick={handleAddOption}
       >
         Add Option
       </Button>

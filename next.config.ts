@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   env: {
-    BASIC_API_URL: process.env.BASIC_API_URL,
+    NEXT_PUBLIC_BASIC_API_URL: process.env.NEXT_PUBLIC_BASIC_API_URL,
   },
 };
 
