@@ -58,7 +58,7 @@ const Form = () => {
     e.preventDefault();
     try {
       await axios.post(`https://ben-erbij.guidodiepen.nl/api/polls/`, formData);
-      router.push("/polls");
+      router.push("/");
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Failed to submit poll");
