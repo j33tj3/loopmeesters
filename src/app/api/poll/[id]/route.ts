@@ -6,9 +6,7 @@ export async function GET(
 ) {
   const { id } = await params;
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASIC_API_URL}/${id}/`
-    );
+    const response = await fetch(`https://ben-erbij.guidodiepen.nl/api/${id}/`);
     if (!response.ok) {
       throw new Error("Failed to fetch poll");
     }

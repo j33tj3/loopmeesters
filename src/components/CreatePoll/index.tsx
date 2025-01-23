@@ -57,10 +57,7 @@ const Form = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BASIC_API_URL}/polls/`,
-        formData
-      );
+      await axios.post(`https://ben-erbij.guidodiepen.nl/api/polls/`, formData);
       router.push("/polls");
     } catch (error) {
       console.error("Error submitting form:", error);
