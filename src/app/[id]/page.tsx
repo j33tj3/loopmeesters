@@ -7,6 +7,11 @@ import { use } from "react";
 import { EnterName } from "@/components/EnterName";
 import { LoadingSpinner } from "@/components/layout/LoadingSpinner";
 
+export type UserData = {
+  name: string;
+  uuid: string;
+};
+
 export default function PollPage({
   params,
 }: {
@@ -14,10 +19,7 @@ export default function PollPage({
 }) {
   const { id } = use(params); // Unwrap the async params
 
-  const [userData, setUserData] = useState<{
-    name: string;
-    uuid: string;
-  } | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,5 +52,5 @@ export default function PollPage({
     return <EnterName onSubmit={handleUserSubmit} />;
   }
 
-  return <PollById id={id} />;
+  return <PollById id={id} userData={userData} />;
 }
