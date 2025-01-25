@@ -3,7 +3,6 @@
 import { Poll, usePolls } from "@/utils/usePolls";
 import {
   Box,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -11,20 +10,13 @@ import {
   TableRow,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { LoadingSpinner } from "../layout/LoadingSpinner";
 
 const PollsList = () => {
   const router = useRouter();
   const { data, isLoading, error } = usePolls();
 
-  if (isLoading)
-    return (
-      <Box
-        component="div"
-        className="absolute w-full h-full flex justify-center items-center"
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <p>Error: {error.message}</p>;
 
   const { result } = data;
