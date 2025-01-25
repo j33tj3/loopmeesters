@@ -13,6 +13,17 @@ import { useRouter } from "next/navigation";
 import { todaysDate } from "@/utils/utils";
 import { DatePicker, DesktopTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { useMutation } from "@tanstack/react-query";
+
+type FormData = {
+  title: string;
+  date: string;
+  time: string;
+  trainer: string;
+  is_training: boolean;
+  location: string;
+  options: string[];
+};
 
 const Form = () => {
   const router = useRouter();
@@ -54,21 +65,19 @@ const Form = () => {
     }));
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    try {
-      await axios.post(`https://ben-erbij.guidodiepen.nl/api/polls/`, formData);
-      router.push("/");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Failed to submit poll");
-    }
-  };
+  const mutation = useMutation({
+    mutationFn: (formData: FormData) =>
+      axios.post(`https://ben-erbij.guidodiepen.nl/api/polls/`, formData),
+  });
 
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        mutation.mutate(formData);
+        router.push("/");
+      }}
       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
     >
       <TextField
