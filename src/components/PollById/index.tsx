@@ -10,16 +10,17 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { LoadingSpinner } from "../layout/LoadingSpinner";
 import { CheckCircle, Lens } from "@mui/icons-material";
+import { useState } from "react";
 
 type VoteData = {
   user_id: string;
   user_name: string;
   poll_option_id: string;
-  cancel_vote: false;
+  cancel_vote: boolean;
 };
 
 interface PollByIdProps {
@@ -29,10 +30,16 @@ interface PollByIdProps {
 
 export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const { data, isLoading } = usePoll(id);
+  const queryClient = useQueryClient();
+  const [localVotes, setLocalVotes] = useState<Vote[] | null>(null);
 
   const mutation = useMutation({
     mutationFn: (voteData: VoteData) =>
       axios.post(`https://ben-erbij.guidodiepen.nl/api/vote/${id}`, voteData),
+    onSuccess: () => {
+      // Refetch the poll data after a vote is submitted
+      queryClient.invalidateQueries({ queryKey: ["poll", id] });
+    },
   });
 
   if (isLoading) {
@@ -43,7 +50,43 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const { date, time, title, trainer, is_training, location, votes } = result;
   const { name, uuid } = userData;
 
-  console.log(result);
+  // Use the localVotes state if available, otherwise fallback to the fetched data
+  const currentVotes = localVotes || votes;
+
+  const handleVote = (vote: Vote) => {
+    const userVoted = vote.users.some((user) => user.id === uuid);
+
+    mutation.mutate({
+      user_id: uuid,
+      user_name: name,
+      poll_option_id: vote.poll_option_id,
+      cancel_vote: userVoted, // Cancel vote if already voted
+    });
+
+    // Optimistic update for instant feedback
+    setLocalVotes((prevVotes) => {
+      if (!prevVotes) return votes;
+
+      return prevVotes.map((v) => {
+        if (v.poll_option_id === vote.poll_option_id) {
+          if (userVoted) {
+            // Remove the user's vote
+            return {
+              ...v,
+              users: v.users.filter((user) => user.id !== uuid),
+            };
+          } else {
+            // Add the user's vote
+            return {
+              ...v,
+              users: [...v.users, { id: uuid, name }],
+            };
+          }
+        }
+        return v;
+      });
+    });
+  };
 
   return (
     <Box sx={{ padding: 2 }}>
@@ -71,8 +114,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
         </CardContent>
       </Card>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
-        {votes.map((vote: Vote) => {
-          // check if user has already voted for this option
+        {currentVotes.map((vote: Vote) => {
           const userVoted = vote.users.some((user) => user.id === uuid);
 
           return (
@@ -80,15 +122,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
               key={vote.poll_option_id}
               variant="contained"
               sx={{ mt: 2 }}
-              onClick={(e) => {
-                e.preventDefault();
-                mutation.mutate({
-                  user_id: uuid,
-                  user_name: name,
-                  poll_option_id: vote.poll_option_id,
-                  cancel_vote: false,
-                });
-              }}
+              onClick={() => handleVote(vote)}
             >
               <Box
                 sx={{
@@ -101,7 +135,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
               >
                 <Box>{userVoted ? <CheckCircle /> : <Lens />}</Box>
                 <Box>
-                  <Box>
+                  <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
                     <Typography variant="h6" component="span">
                       {vote.description}
                     </Typography>
