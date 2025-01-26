@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { LoadingSpinner } from "../layout/LoadingSpinner";
 import { CheckCircle, Lens } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type VoteData = {
   user_id: string;
@@ -42,6 +42,13 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
     },
   });
 
+  useEffect(() => {
+    // Sync localVotes with the fetched data on initial load or when data changes
+    if (data) {
+      setLocalVotes(data.result.votes);
+    }
+  }, [data]);
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -50,7 +57,6 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const { date, time, title, trainer, is_training, location, votes } = result;
   const { name, uuid } = userData;
 
-  // Use the localVotes state if available, otherwise fallback to the fetched data
   const currentVotes = localVotes || votes;
 
   const handleVote = (vote: Vote) => {
@@ -141,7 +147,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
                     </Typography>
                   </Box>
                   <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-                    <Typography variant="caption">
+                    <Typography variant="caption" sx={{ textAlign: "left" }}>
                       {vote.users.map((user, index) => (
                         <span key={index}>
                           {user.name}
