@@ -95,7 +95,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ padding: 2, display: "flex", flexDirection: "column", gap: 2 }}>
       <Card>
         <CardContent>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -119,7 +119,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
           </Box>
         </CardContent>
       </Card>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {currentVotes.map((vote: Vote) => {
           const userVoted = vote.users.some((user) => user.id === uuid);
 
@@ -127,8 +127,11 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
             <Button
               key={vote.poll_option_id}
               variant="contained"
-              sx={{ mt: 2 }}
               onClick={() => handleVote(vote)}
+              sx={{
+                textTransform: "none",
+                padding: 2,
+              }}
             >
               <Box
                 sx={{
@@ -140,21 +143,38 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
                 }}
               >
                 <Box>{userVoted ? <CheckCircle /> : <Lens />}</Box>
-                <Box>
-                  <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                    <Typography variant="h6" component="span">
-                      {vote.description}
-                    </Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Box
+                    sx={{
+                      typography: "body1",
+                      textAlign: "left",
+                      lineHeight: 1.25,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {vote.description}
                   </Box>
-                  <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-                    <Typography variant="caption" sx={{ textAlign: "left" }}>
-                      {vote.users.map((user, index) => (
-                        <span key={index}>
-                          {user.name}
-                          {index < vote.users.length - 1 && ", "}
-                        </span>
-                      ))}
-                    </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      columnGap: 1,
+                    }}
+                  >
+                    {vote.users.map((user, index) => (
+                      <Box
+                        sx={{
+                          typography: "subtitle2",
+                          textTransform: "capitalize",
+                          lineHeight: 1.25,
+                        }}
+                        key={index}
+                      >
+                        {user.name}
+                        {index < vote.users.length - 1 && ", "}
+                      </Box>
+                    ))}
                   </Box>
                 </Box>
                 <Box sx={{ marginLeft: "auto" }}>
