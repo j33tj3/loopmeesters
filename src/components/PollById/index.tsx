@@ -8,12 +8,13 @@ import {
   Button,
   Card,
   CardContent,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { LoadingSpinner } from "../layout/LoadingSpinner";
-import { CheckCircle, Lens } from "@mui/icons-material";
+import { Add, CheckCircle, Lens } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 
 type VoteData = {
@@ -32,12 +33,25 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const { data, isLoading } = usePoll(id);
   const queryClient = useQueryClient();
   const [localVotes, setLocalVotes] = useState<Vote[] | null>(null);
+  const [newPollOption, setNewPollOption] = useState("");
 
-  const mutation = useMutation({
+  const voteMutation = useMutation({
     mutationFn: (voteData: VoteData) =>
       axios.post(`https://ben-erbij.guidodiepen.nl/api/vote/${id}`, voteData),
     onSuccess: () => {
       // Refetch the poll data after a vote is submitted
+      queryClient.invalidateQueries({ queryKey: ["poll", id] });
+    },
+  });
+
+  const pollOtionMutation = useMutation({
+    mutationFn: (pollOptionData: { poll_id: string; description: string }) =>
+      axios.post(
+        `https://ben-erbij.guidodiepen.nl/api/poll_option/`,
+        pollOptionData
+      ),
+    onSuccess: () => {
+      // Refetch the poll data after a new option is added
       queryClient.invalidateQueries({ queryKey: ["poll", id] });
     },
   });
@@ -62,7 +76,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const handleVote = (vote: Vote) => {
     const userVoted = vote.users.some((user) => user.id === uuid);
 
-    mutation.mutate({
+    voteMutation.mutate({
       user_id: uuid,
       user_name: name,
       poll_option_id: vote.poll_option_id,
@@ -94,6 +108,35 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
     });
   };
 
+  const handleNewOptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNewPollOption(event.target.value);
+  };
+
+  const handleAddOption = () => {
+    const newOption = {
+      poll_id: id,
+      description: newPollOption,
+    };
+
+    pollOtionMutation.mutate(newOption, {
+      onSuccess: () => {
+        setLocalVotes((prev) => [
+          ...(prev || []),
+          {
+            poll_option_id: newOption.poll_id,
+            description: newOption.description,
+            users: [],
+            number_votes: 0,
+          },
+        ]);
+        setNewPollOption(""); // Clear input field
+        queryClient.invalidateQueries({ queryKey: ["poll", id] });
+      },
+    });
+  };
+
   return (
     <Box sx={{ padding: 2, display: "flex", flexDirection: "column", gap: 2 }}>
       <Card>
@@ -122,7 +165,6 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {currentVotes.map((vote: Vote) => {
           const userVoted = vote.users.some((user) => user.id === uuid);
-
           return (
             <Button
               key={vote.poll_option_id}
@@ -184,6 +226,25 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
             </Button>
           );
         })}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+        <TextField
+          label="Voeg een optie toe"
+          name="nieuwe-optie"
+          fullWidth
+          value={newPollOption}
+          onChange={handleNewOptionChange}
+        />
+        <Button
+          type="button"
+          variant="outlined"
+          size="large"
+          fullWidth
+          sx={{ width: "fit-content" }}
+          onClick={handleAddOption}
+        >
+          <Add />
+        </Button>
       </Box>
     </Box>
   );
