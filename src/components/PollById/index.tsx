@@ -156,10 +156,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
                   </Box>
                   <Box
                     sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      flexWrap: "wrap",
-                      columnGap: 1,
+                      textAlign: "left",
                     }}
                   >
                     {vote.users.map((user, index) => (
@@ -168,6 +165,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
                           typography: "subtitle2",
                           textTransform: "capitalize",
                           lineHeight: 1.25,
+                          display: "inline",
                         }}
                         key={index}
                       >
