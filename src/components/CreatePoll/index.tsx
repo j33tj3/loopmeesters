@@ -236,7 +236,10 @@ const CreatePoll = () => {
       {formData.options.map((_option, index) => {
         const number = index + 1;
         return (
-          <Box key={index}>
+          <Box
+            key={index}
+            sx={{ display: "flex", flexDirection: "row", gap: 1 }}
+          >
             <TextField
               label={`Stem optie ${number}`}
               name={`option-${number}`}
@@ -248,6 +251,9 @@ const CreatePoll = () => {
             {formData.options.length !== 1 && (
               <Button
                 type="button"
+                variant="outlined"
+                size="large"
+                sx={{ width: "fit-content" }}
                 onClick={() => {
                   const newOptions = [...formData.options];
                   newOptions.splice(index, 1);
@@ -257,7 +263,7 @@ const CreatePoll = () => {
                   }));
                 }}
               >
-                Verwijder optie {number}
+                <Remove />
               </Button>
             )}
           </Box>
