@@ -1,5 +1,19 @@
 import PollsList from "@/components/PollsList";
+import { Card } from "@mui/material";
 
 export default function HomePage() {
-  return <PollsList />;
+  return (
+    <Card
+      sx={{
+        maxWidth: { xs: "100%", md: "80%" },
+        bgcolor: "background.default",
+        padding: { xs: 0, md: 4 },
+        margin: "auto",
+        marginTop: { xs: 2, md: 4 },
+        boxShadow: { xs: 0, md: 2 },
+      }}
+    >
+      <PollsList />
+    </Card>
+  );
 }

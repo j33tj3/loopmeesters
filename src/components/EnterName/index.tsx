@@ -15,15 +15,7 @@ export const EnterName = ({
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="100vh"
-      textAlign="center"
-      p={2}
-    >
+    <Box>
       <Typography variant="h4" gutterBottom>
         What&apos;s your name?
       </Typography>

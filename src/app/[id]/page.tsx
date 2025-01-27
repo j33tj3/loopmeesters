@@ -6,6 +6,7 @@ import { PollById } from "@/components/PollById";
 import { use } from "react";
 import { EnterName } from "@/components/EnterName";
 import { LoadingSpinner } from "@/components/layout/LoadingSpinner";
+import { CardWrapper } from "@/components/layout/Card";
 
 export type UserData = {
   name: string;
@@ -49,8 +50,16 @@ export default function PollPage({
   }
 
   if (!userData) {
-    return <EnterName onSubmit={handleUserSubmit} />;
+    return (
+      <CardWrapper>
+        <EnterName onSubmit={handleUserSubmit} />
+      </CardWrapper>
+    );
   }
 
-  return <PollById id={id} userData={userData} />;
+  return (
+    <CardWrapper>
+      <PollById id={id} userData={userData} />
+    </CardWrapper>
+  );
 }

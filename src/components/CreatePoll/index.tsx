@@ -25,7 +25,7 @@ type FormData = {
   options: string[];
 };
 
-const Form = () => {
+const CreatePoll = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -184,4 +184,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CreatePoll;
