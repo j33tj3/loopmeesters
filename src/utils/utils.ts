@@ -15,3 +15,4 @@ export const pollsUrl = `${apiUrl}polls/`;
 export const voteUrl = `${apiUrl}votes/`;
 export const pollOptionUrl = `${apiUrl}poll_option/`;
 export const trainersUrl = `${apiUrl}trainers`;
+export const locationsUrl = `${apiUrl}locations`;

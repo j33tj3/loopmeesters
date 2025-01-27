@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { useMutation } from "@tanstack/react-query";
 import { useTrainers } from "@/utils/uesTrainers";
 import { Remove } from "@mui/icons-material";
+import { useLocations } from "@/utils/useLocations";
 
 type FormData = {
   title: string;
@@ -35,6 +36,8 @@ const CreatePoll = () => {
   const router = useRouter();
   const { data: trainers } = useTrainers();
   const [otherTrainer, setOtherTrainer] = useState(false);
+  const { data: locations } = useLocations();
+  const [otherLocations, setOtherLocations] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -85,7 +88,14 @@ const CreatePoll = () => {
         trainer: "",
       }));
     }
-  }, [formData.trainer]);
+    if (formData.location === "anders") {
+      setOtherLocations(true);
+      setFormData((prevData) => ({
+        ...prevData,
+        location: "",
+      }));
+    }
+  }, [formData, formData.location, formData.trainer]);
 
   return (
     <Box
@@ -142,7 +152,10 @@ const CreatePoll = () => {
             variant="outlined"
             size="large"
             sx={{ width: "fit-content" }}
-            onClick={() => setOtherTrainer(false)}
+            onClick={() => {
+              setOtherTrainer(false);
+              formData.trainer = "";
+            }}
           >
             <Remove />
           </Button>
@@ -166,14 +179,48 @@ const CreatePoll = () => {
           </Select>
         </FormControl>
       )}
-      <TextField
-        label="Locatie"
-        name="location"
-        value={formData.location}
-        onChange={handleChange}
-        fullWidth
-        required
-      />
+      {otherLocations ? (
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+          <TextField
+            label="Locatie"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+          <Button
+            type="button"
+            variant="outlined"
+            size="large"
+            sx={{ width: "fit-content" }}
+            onClick={() => {
+              setOtherLocations(false);
+              formData.location = "";
+            }}
+          >
+            <Remove />
+          </Button>
+        </Box>
+      ) : (
+        <FormControl fullWidth required>
+          <InputLabel id="demo-simple-select-label">Locatie</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            label="Locatie"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+          >
+            {locations?.map((location: string, index: number) => (
+              <MenuItem key={index} value={location}>
+                {location}
+              </MenuItem>
+            ))}
+            <MenuItem value="anders">Anders</MenuItem>
+          </Select>
+        </FormControl>
+      )}
       <FormControlLabel
         control={
           <Checkbox
