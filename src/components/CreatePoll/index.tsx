@@ -81,7 +81,7 @@ const CreatePoll = () => {
       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
     >
       <TextField
-        label="Titel"
+        label="Naam"
         name="title"
         value={formData.title}
         onChange={handleChange}
@@ -89,7 +89,7 @@ const CreatePoll = () => {
         required
       />
       <DatePicker
-        label="Date"
+        label="Datum"
         onChange={(newValue) =>
           setFormData((prevData) => ({
             ...prevData,
@@ -100,7 +100,7 @@ const CreatePoll = () => {
         sx={{ width: "100% " }}
       />
       <DesktopTimePicker
-        label="Time"
+        label="Tijd"
         ampm={false}
         value={dayjs(`${formData.date}T${formData.time}`)}
         onChange={(newValue) => {
@@ -119,7 +119,7 @@ const CreatePoll = () => {
         required
       />
       <TextField
-        label="Location"
+        label="Locatie"
         name="location"
         value={formData.location}
         onChange={handleChange}
@@ -136,14 +136,14 @@ const CreatePoll = () => {
             name="is_training"
           />
         }
-        label="Is Training?"
+        label="Training?"
       />
       {formData.options.map((_option, index) => {
         const number = index + 1;
         return (
           <Box key={index}>
             <TextField
-              label={`Option ${number}`}
+              label={`Stem optie ${number}`}
               name={`option-${number}`}
               value={formData.options[index]}
               fullWidth
@@ -162,7 +162,7 @@ const CreatePoll = () => {
                   }));
                 }}
               >
-                Remove Option
+                Verwijder optie {number}
               </Button>
             )}
           </Box>
@@ -175,10 +175,10 @@ const CreatePoll = () => {
         fullWidth
         onClick={handleAddOption}
       >
-        Add Option
+        Voeg nieuwe optie toe
       </Button>
       <Button type="submit" variant="contained" size="large" fullWidth>
-        Submit
+        Maak poll aan
       </Button>
     </Box>
   );

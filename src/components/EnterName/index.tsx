@@ -17,10 +17,10 @@ export const EnterName = ({
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
-        What&apos;s your name?
+        Hoe heet jij?
       </Typography>
       <TextField
-        label="Enter your name"
+        label="Vul je naam in"
         variant="outlined"
         value={nameInput}
         onChange={(e) => setNameInput(e.target.value)}
@@ -35,7 +35,7 @@ export const EnterName = ({
         onClick={handleSubmit}
         disabled={!nameInput.trim()}
       >
-        Submit
+        Ga verder
       </Button>
     </Box>
   );
