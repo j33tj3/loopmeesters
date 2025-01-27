@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPoll = async (id: string) => {
-  const response = await fetch(`/api/poll/${id}`);
+  const response = await fetch(`/nextjs_api/poll/${id}`);
   if (!response.ok) {
     throw new Error("Failed to fetch poll");
   }
