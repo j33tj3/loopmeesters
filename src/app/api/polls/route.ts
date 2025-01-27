@@ -1,8 +1,9 @@
+import { pollsUrl } from "@/utils/utils";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const response = await fetch(`https://ben-erbij.guidodiepen.nl/api/polls/`);
+    const response = await fetch(pollsUrl);
     if (!response.ok) {
       throw new Error("Failed to fetch polls");
     }

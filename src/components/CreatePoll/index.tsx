@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { todaysDate } from "@/utils/utils";
+import { pollsUrl, todaysDate } from "@/utils/utils";
 import { DatePicker, DesktopTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useMutation } from "@tanstack/react-query";
@@ -66,8 +66,7 @@ const CreatePoll = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: (formData: FormData) =>
-      axios.post(`https://ben-erbij.guidodiepen.nl/api/polls/`, formData),
+    mutationFn: (formData: FormData) => axios.post(pollsUrl, formData),
   });
 
   return (

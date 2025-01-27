@@ -16,6 +16,7 @@ import axios from "axios";
 import { LoadingSpinner } from "../layout/LoadingSpinner";
 import { Add, CheckCircle, Lens } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import { pollOptionUrl, voteUrl } from "@/utils/utils";
 
 type VoteData = {
   user_id: string;
@@ -36,8 +37,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const [newPollOption, setNewPollOption] = useState("");
 
   const voteMutation = useMutation({
-    mutationFn: (voteData: VoteData) =>
-      axios.post(`https://ben-erbij.guidodiepen.nl/api/vote/${id}`, voteData),
+    mutationFn: (voteData: VoteData) => axios.post(`${voteUrl}${id}`, voteData),
     onSuccess: () => {
       // Refetch the poll data after a vote is submitted
       queryClient.invalidateQueries({ queryKey: ["poll", id] });
@@ -46,10 +46,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
 
   const pollOtionMutation = useMutation({
     mutationFn: (pollOptionData: { poll_id: string; description: string }) =>
-      axios.post(
-        `https://ben-erbij.guidodiepen.nl/api/poll_option/`,
-        pollOptionData
-      ),
+      axios.post(pollOptionUrl, pollOptionData),
     onSuccess: () => {
       // Refetch the poll data after a new option is added
       queryClient.invalidateQueries({ queryKey: ["poll", id] });
