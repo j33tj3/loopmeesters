@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
   Checkbox,
   FormControlLabel,
   Box,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -14,6 +18,8 @@ import { pollsUrl, todaysDate } from "@/utils/utils";
 import { DatePicker, DesktopTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useMutation } from "@tanstack/react-query";
+import { useTrainers } from "@/utils/uesTrainers";
+import { Remove } from "@mui/icons-material";
 
 type FormData = {
   title: string;
@@ -27,6 +33,8 @@ type FormData = {
 
 const CreatePoll = () => {
   const router = useRouter();
+  const { data: trainers } = useTrainers();
+  const [otherTrainer, setOtherTrainer] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -69,6 +77,16 @@ const CreatePoll = () => {
     mutationFn: (formData: FormData) => axios.post(pollsUrl, formData),
   });
 
+  useEffect(() => {
+    if (formData.trainer === "anders") {
+      setOtherTrainer(true);
+      setFormData((prevData) => ({
+        ...prevData,
+        trainer: "",
+      }));
+    }
+  }, [formData.trainer]);
+
   return (
     <Box
       component="form"
@@ -109,14 +127,45 @@ const CreatePoll = () => {
           }));
         }}
       />
-      <TextField
-        label="Trainer"
-        name="trainer"
-        value={formData.trainer}
-        onChange={handleChange}
-        fullWidth
-        required
-      />
+      {otherTrainer ? (
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+          <TextField
+            label="Trainer"
+            name="trainer"
+            value={formData.trainer}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+          <Button
+            type="button"
+            variant="outlined"
+            size="large"
+            sx={{ width: "fit-content" }}
+            onClick={() => setOtherTrainer(false)}
+          >
+            <Remove />
+          </Button>
+        </Box>
+      ) : (
+        <FormControl fullWidth required>
+          <InputLabel id="demo-simple-select-label">Trainer</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            label="Trainer"
+            name="trainer"
+            value={formData.trainer}
+            onChange={handleChange}
+          >
+            {trainers?.map((trainer: string, index: number) => (
+              <MenuItem key={index} value={trainer}>
+                {trainer}
+              </MenuItem>
+            ))}
+            <MenuItem value="anders">Anders</MenuItem>
+          </Select>
+        </FormControl>
+      )}
       <TextField
         label="Locatie"
         name="location"
