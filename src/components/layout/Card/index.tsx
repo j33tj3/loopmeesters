@@ -7,6 +7,7 @@ export const CardWrapper = ({ children }: { children: ReactNode }) => {
       sx={{
         height: "fit-content",
         maxWidth: { xs: "100%", md: "500px" },
+        width: "100%",
         margin: "auto",
         marginTop: { xs: 2, md: 4 },
         padding: { xs: 2, md: 2 },
