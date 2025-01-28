@@ -7,10 +7,11 @@ export const todaysDate = () => {
     day: "numeric",
   };
 
-  return date.toLocaleDateString("en-CA", options); // For now the schema for date is in en-CA format (YYYY-MM-DD)
+  return date.toLocaleDateString("en-CA", options);
 };
 
-export const apiUrl = "https://ben-erbij.guidodiepen.nl/api/";
+export const baseUrl = "https://ben-erbij.guidodiepen.nl/"; // TODO: Update when live to loopmeesters.nl
+export const apiUrl = `${baseUrl}api/`;
 export const pollsUrl = `${apiUrl}polls/`;
 export const voteUrl = `${apiUrl}votes/`;
 export const pollOptionUrl = `${apiUrl}poll_option/`;
