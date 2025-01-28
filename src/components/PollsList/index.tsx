@@ -80,7 +80,7 @@ const PollsList = ({ data }: { data: Polls }) => {
           <TableBody>
             {result.map((poll: Poll) => {
               const handleCopy = () => {
-                const text = `Doe je mee met "${poll.title}"\nDatum: ${poll.date}\nTijd: ${poll.time}\nLocatie: ${poll.location}\nTrainer: ${poll.trainer}\n\n${baseUrl}/${poll.id}`;
+                const text = `Doe je mee met "${poll.title}"\nDatum: ${poll.date}\nTijd: ${poll.time}\nLocatie: ${poll.location}\nTrainer: ${poll.trainer}\n\n${baseUrl}${poll.id}`;
 
                 navigator.clipboard
                   .writeText(text)
