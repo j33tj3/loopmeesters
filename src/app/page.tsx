@@ -25,7 +25,7 @@ export default function HomePage() {
       <PollsList data={data} />
       {!isLoading && (
         <Button variant="contained" sx={{}} href="/create-poll" fullWidth>
-          Maak poll aan
+          Maak ben-erij aan
         </Button>
       )}
     </Box>
