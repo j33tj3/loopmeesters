@@ -18,6 +18,21 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Loopmeesters",
   description: "Samen hardlopen is leuker",
+  openGraph: {
+    title: "Loopmeesters",
+    description: "Samen hardlopen is leuker",
+    url: "ben-erbij.loopmeesters.nl",
+    siteName: "Loopmeesters - Ben-erbij",
+    images: [
+      {
+        url: "https://ben-erbij.guidodiepen.nl/og.png", // need to update when live
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: "nl_NL",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
