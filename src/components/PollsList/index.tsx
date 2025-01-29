@@ -41,7 +41,7 @@ const PollsList = ({ data }: { data: Polls }) => {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        maxWidth: { xs: "100%", md: "80%" },
+        width: "100%",
       }}
     >
       {alert && (
@@ -93,7 +93,7 @@ const PollsList = ({ data }: { data: Polls }) => {
                   onClick={() => router.push(`/${poll.id}`)}
                   className="cursor-pointer hover:bg-blue-100"
                 >
-                  <TableCell>
+                  <TableCell sx={{ paddingLeft: { xs: 0, md: 2 } }}>
                     <Box
                       sx={{
                         display: "flex",
@@ -115,7 +115,7 @@ const PollsList = ({ data }: { data: Polls }) => {
                   <TableCell sx={desktopOnly}>{poll.time}</TableCell>
                   <TableCell sx={desktopOnly}>{poll.trainer}</TableCell>
                   <TableCell sx={desktopOnly}>{poll.location}</TableCell>
-                  <TableCell>
+                  <TableCell sx={{ paddingRight: { xs: 0, md: 2 } }}>
                     <Box
                       sx={{ display: "flex", justifyContent: "space-between" }}
                     >

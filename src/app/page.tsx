@@ -4,7 +4,6 @@ import { LoadingSpinner } from "@/components/layout/LoadingSpinner";
 import PollsList from "@/components/PollsList";
 import { usePolls } from "@/utils/usePolls";
 import { Box, Button } from "@mui/material";
-import { blue } from "@mui/material/colors";
 
 export default function HomePage() {
   const { data, isLoading } = usePolls();
@@ -16,20 +15,16 @@ export default function HomePage() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        justifyContent: "center",
         gap: 2,
+        marginX: "auto",
         padding: { xs: 2, md: 4 },
-        backgroundColor: { xs: blue[50], md: "unset" },
+        maxWidth: { xs: "100%", md: "80%" },
       }}
     >
       <PollsList data={data} />
       {!isLoading && (
-        <Button
-          variant="contained"
-          sx={{ maxWidth: { xs: "100%", md: "80%" } }}
-          href="/create-poll"
-          fullWidth
-        >
+        <Button variant="contained" sx={{}} href="/create-poll" fullWidth>
           Maak poll aan
         </Button>
       )}
