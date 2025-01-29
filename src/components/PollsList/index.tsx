@@ -24,6 +24,7 @@ const PollsList = ({ data }: { data: Polls }) => {
   const [alert, setAlert] = useState(false);
   const { result } = data;
   const desktopOnly = { display: { xs: "none", md: "table-cell" } };
+  const tableCellStyle = { verticalAlign: "top" };
 
   useEffect(() => {
     if (alert) {
@@ -93,7 +94,9 @@ const PollsList = ({ data }: { data: Polls }) => {
                   onClick={() => router.push(`/${poll.id}`)}
                   className="cursor-pointer hover:bg-blue-100"
                 >
-                  <TableCell sx={{ paddingLeft: { xs: 0, md: 2 } }}>
+                  <TableCell
+                    sx={{ paddingLeft: { xs: 0, md: 2 }, ...tableCellStyle }}
+                  >
                     <Box
                       sx={{
                         display: "flex",
@@ -112,12 +115,24 @@ const PollsList = ({ data }: { data: Polls }) => {
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell sx={desktopOnly}>{poll.time}</TableCell>
-                  <TableCell sx={desktopOnly}>{poll.trainer}</TableCell>
-                  <TableCell sx={desktopOnly}>{poll.location}</TableCell>
-                  <TableCell sx={{ paddingRight: { xs: 0, md: 2 } }}>
+                  <TableCell sx={{ ...desktopOnly, ...tableCellStyle }}>
+                    {poll.time}
+                  </TableCell>
+                  <TableCell sx={{ ...desktopOnly, ...tableCellStyle }}>
+                    {poll.trainer}
+                  </TableCell>
+                  <TableCell sx={{ ...desktopOnly, ...tableCellStyle }}>
+                    {poll.location}
+                  </TableCell>
+                  <TableCell
+                    sx={{ paddingRight: { xs: 0, md: 2 }, ...tableCellStyle }}
+                  >
                     <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
+                      sx={{
+                        display: "flex",
+                        gap: 2,
+                        justifyContent: "space-between",
+                      }}
                     >
                       {poll.title}
                       <Button
