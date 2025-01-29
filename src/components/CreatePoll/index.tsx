@@ -279,7 +279,7 @@ const CreatePoll = () => {
         Voeg nieuwe optie toe
       </Button>
       <Button type="submit" variant="contained" size="large" fullWidth>
-        Maak poll aan
+        Maak ben-erbij aan
       </Button>
     </Box>
   );

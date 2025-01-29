@@ -12,7 +12,7 @@ export default function CreatePollPage() {
           gutterBottom
           sx={{ marginBottom: 2 }}
         >
-          Maak een poll aan:
+          Maak een ben-erbij aan:
         </Typography>
         <PollForm />
       </CardWrapper>
