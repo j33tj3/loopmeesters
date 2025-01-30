@@ -24,7 +24,7 @@ export const getDayName = (dateString: string) => {
 export const baseUrl = "https://ben-erbij.guidodiepen.nl/"; // TODO: Update when live to loopmeesters.nl
 export const apiUrl = `${baseUrl}api/`;
 export const pollsUrl = `${apiUrl}polls/`;
-export const voteUrl = `${apiUrl}votes/`;
+export const voteUrl = `${apiUrl}vote/`;
 export const pollOptionUrl = `${apiUrl}poll_option/`;
 export const trainersUrl = `${apiUrl}trainers`;
 export const locationsUrl = `${apiUrl}locations`;
