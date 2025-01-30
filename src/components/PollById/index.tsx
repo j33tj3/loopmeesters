@@ -25,6 +25,7 @@ import {
 import { useEffect, useState } from "react";
 import { formatDate, getDayName, pollOptionUrl, voteUrl } from "@/utils/utils";
 import { TrainerAvatar } from "../TrainerAvatar.tsx";
+import { notFound } from "next/navigation";
 
 type VoteData = {
   user_id: string;
@@ -72,7 +73,12 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
     return <LoadingSpinner />;
   }
 
+  if (!data) {
+    return notFound();
+  }
+
   const { result } = data;
+
   const { date, time, title, trainer, is_training, location, votes } = result;
   const { name, uuid } = userData;
 
