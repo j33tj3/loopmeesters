@@ -3,20 +3,28 @@
 import { UserData } from "@/app/[id]/page";
 import { usePoll, Vote } from "@/utils/usePoll";
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardContent,
+  Chip,
+  Divider,
   TextField,
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { LoadingSpinner } from "../layout/LoadingSpinner";
-import { Add, CheckCircle, Lens } from "@mui/icons-material";
+import {
+  Add,
+  CalendarToday,
+  CheckCircle,
+  Lens,
+  Place,
+} from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { pollOptionUrl, voteUrl } from "@/utils/utils";
+import { formatDate, getDayName, pollOptionUrl, voteUrl } from "@/utils/utils";
+import { TrainerAvatar } from "../TrainerAvatar.tsx";
 
 type VoteData = {
   user_id: string;
@@ -128,7 +136,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
             number_votes: 0,
           },
         ]);
-        setNewPollOption(""); // Clear input field
+        setNewPollOption("");
         queryClient.invalidateQueries({ queryKey: ["poll", id] });
       },
     });
@@ -139,21 +147,61 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
       <Card>
         <CardContent>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography variant="h5" component="div">
               {title}
             </Typography>
-            {is_training && <Typography variant="body2">Training</Typography>}
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar sx={{ backgroundColor: "#0a88ca" }}>
-                <Typography variant="caption">{trainer}</Typography>
-              </Avatar>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography variant="body2" color="text.secondary">
-                  {date} {time}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {location}
-                </Typography>
+            <Divider />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                className="flex items-center gap-2"
+              >
+                <CalendarToday className="size-4" />
+                <span>
+                  {getDayName(date)} {time} {formatDate(date)}
+                </span>
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                className="flex items-center gap-2"
+              >
+                <Place className="size-4" />
+                <span>{location}</span>
+              </Typography>
+            </Box>
+            <Divider />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+                  <TrainerAvatar trainer={trainer} />
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <Typography variant="caption" color="text.secondary">
+                      Trainer:
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {trainer}
+                    </Typography>
+                  </Box>
+                </Box>
+                {is_training && (
+                  <Chip label="Training" variant="outlined" size="small" />
+                )}
               </Box>
             </Box>
           </Box>

@@ -22,9 +22,9 @@ export default function HomePage() {
         maxWidth: { xs: "100%", md: "80%" },
       }}
     >
-      <PollsList data={data} />
+      {data && <PollsList data={data} />}
       {!isLoading && (
-        <Button variant="contained" sx={{}} href="/create-poll" fullWidth>
+        <Button variant="contained" href="/create-poll" fullWidth>
           Maak ben-erij aan
         </Button>
       )}

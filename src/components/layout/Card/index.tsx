@@ -11,6 +11,7 @@ export const CardWrapper = ({ children }: { children: ReactNode }) => {
         marginX: "auto",
         padding: { xs: 2, md: 2 },
         boxShadow: { xs: 0, md: 2 },
+        backgroundColor: { xs: "none", md: "background.paper" },
       }}
     >
       {children}

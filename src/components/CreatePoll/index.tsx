@@ -18,7 +18,7 @@ import { pollsUrl, todaysDate } from "@/utils/utils";
 import { DatePicker, DesktopTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useMutation } from "@tanstack/react-query";
-import { useTrainers } from "@/utils/uesTrainers";
+import { useTrainers } from "@/utils/useTrainers";
 import { Remove } from "@mui/icons-material";
 import { useLocations } from "@/utils/useLocations";
 
