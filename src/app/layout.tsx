@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://ben-erbij.guidodiepen.nl/og.png", // need to update when live
-        width: 800,
-        height: 600,
+        width: 320,
+        height: 240,
       },
     ],
     locale: "nl_NL",
