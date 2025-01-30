@@ -1,7 +1,7 @@
 "use client";
 
 import { Poll, Polls } from "@/utils/usePolls";
-import { baseUrl, formatDate } from "@/utils/utils";
+import { baseUrl, formatDate, getDayName } from "@/utils/utils";
 import { AccessTime, Check, ContentCopy } from "@mui/icons-material";
 
 import {
@@ -82,7 +82,13 @@ const PollsList = ({ data }: { data: Polls }) => {
           <TableBody>
             {result.map((poll: Poll) => {
               const handleCopy = () => {
-                const text = `Doe je mee met "${poll.title}"\nDatum: ${poll.date}\nTijd: ${poll.time}\nLocatie: ${poll.location}\nTrainer: ${poll.trainer}\n\n${baseUrl}${poll.id}`;
+                const text = `Doe je mee met "${
+                  poll.title
+                }"\nDatum: ${getDayName(poll.date)} ${formatDate(
+                  poll.date
+                )}\nTijd: ${poll.time}\nLocatie: ${poll.location}\nTrainer: ${
+                  poll.trainer
+                }\n\n${baseUrl}${poll.id}`;
 
                 navigator.clipboard
                   .writeText(text)
