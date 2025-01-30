@@ -16,7 +16,7 @@ export const EnterName = ({
 
   return (
     <Box>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Hoe heet jij?
       </Typography>
       <TextField

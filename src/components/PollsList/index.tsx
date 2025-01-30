@@ -1,7 +1,7 @@
 "use client";
 
 import { Poll, Polls } from "@/utils/usePolls";
-import { baseUrl } from "@/utils/utils";
+import { baseUrl, formatDate } from "@/utils/utils";
 import { AccessTime, Check, ContentCopy } from "@mui/icons-material";
 
 import {
@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TrainerAvatar } from "../TrainerAvatar.tsx";
 
 const PollsList = ({ data }: { data: Polls }) => {
   const router = useRouter();
@@ -105,7 +106,9 @@ const PollsList = ({ data }: { data: Polls }) => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      <Typography variant="caption">{poll.date}</Typography>
+                      <Typography variant="caption">
+                        {formatDate(poll.date)}
+                      </Typography>
                       <Typography
                         variant="caption"
                         sx={{ display: "flex", gap: 0.5, alignItems: "center" }}
@@ -116,10 +119,7 @@ const PollsList = ({ data }: { data: Polls }) => {
                     </Box>
                   </TableCell>
                   <TableCell sx={{ ...desktopOnly, ...tableCellStyle }}>
-                    {poll.time}
-                  </TableCell>
-                  <TableCell sx={{ ...desktopOnly, ...tableCellStyle }}>
-                    {poll.trainer}
+                    <TrainerAvatar trainer={poll.trainer} />
                   </TableCell>
                   <TableCell sx={{ ...desktopOnly, ...tableCellStyle }}>
                     {poll.location}
