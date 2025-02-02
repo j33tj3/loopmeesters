@@ -165,7 +165,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
               >
                 <CalendarToday className="size-4" />
                 <span>
-                  {getDayName(date)} {time} {formatDate(date)}
+                  {getDayName(date)} {formatDate(date)} om {time} uur
                 </span>
               </Typography>
               <Typography
