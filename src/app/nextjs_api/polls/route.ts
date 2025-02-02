@@ -9,7 +9,7 @@ export async function GET() {
     const headers = new Headers();
     headers.append(
       "Authorization",
-      "Basic " + Buffer.from(api_user + "=" + api_passwd).toString("base64")
+      "Basic " + Buffer.from(api_user + ":" + api_passwd).toString("base64")
     );
 
     const response = await fetch(pollsUrl, { headers: headers });
