@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  env: {},
+  env: {
+    BEN_ERBIJ_BASE_URL: process.env.BEN_ERBIJ_BASE_URL,
+  },
 };
 
 export default nextConfig;

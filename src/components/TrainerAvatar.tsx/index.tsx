@@ -11,7 +11,6 @@ interface TrainerAvatarProps {
 export const TrainerAvatar: React.FC<TrainerAvatarProps> = ({ trainer }) => {
   const { data: trainers } = useTrainers();
   const trainerId = trainers && trainers.indexOf(trainer);
-  console.log(trainerId);
 
   if (trainerId === -1) {
     return (
