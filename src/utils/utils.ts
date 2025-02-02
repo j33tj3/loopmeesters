@@ -21,7 +21,7 @@ export const getDayName = (dateString: string) => {
   return new Intl.DateTimeFormat("nl-NL", { weekday: "long" }).format(date);
 };
 
-export const baseUrl = "https://ben-erbij.guidodiepen.nl/"; // TODO: Update when live to loopmeesters.nl
+export const baseUrl = process.env.BEN_ERBIJ_BASE_URL;
 export const apiUrl = `${baseUrl}api/`;
 export const pollsUrl = `${apiUrl}polls/`;
 export const voteUrl = `${apiUrl}vote/`;

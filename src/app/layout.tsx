@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Loopmeesters",
     description: "Samen hardlopen is leuker",
-    url: "ben-erbij.loopmeesters.nl",
+    url: process.env.BEN_ERBIJ_BASE_URL,
     siteName: "Loopmeesters - Ben-erbij",
     images: [
       {
-        url: "https://ben-erbij.guidodiepen.nl/og.png", // need to update when live
+        url: `${process.env.BEN_ERBIJ_BASE_URL}og.png`,
         width: 320,
         height: 240,
       },
