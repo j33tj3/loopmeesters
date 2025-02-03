@@ -12,7 +12,7 @@ export const TrainerAvatar: React.FC<TrainerAvatarProps> = ({ trainer }) => {
   const { data: trainers } = useTrainers();
   const trainerId = trainers && trainers.indexOf(trainer);
 
-  if (trainerId === -1) {
+  if (!trainers || trainerId === -1) {
     return (
       <Box
         sx={{
