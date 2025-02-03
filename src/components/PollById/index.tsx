@@ -53,7 +53,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
     },
   });
 
-  const pollOtionMutation = useMutation({
+  const pollOptionMutation = useMutation({
     mutationFn: (pollOptionData: { poll_id: string; description: string }) =>
       axios.post(pollOptionUrl, pollOptionData),
     onSuccess: () => {
@@ -131,12 +131,14 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
       description: newPollOption,
     };
 
-    pollOtionMutation.mutate(newOption, {
-      onSuccess: () => {
+    pollOptionMutation.mutate(newOption, {
+      onSuccess: (response) => {
+        const votes = response.data.result.votes;
+        const newPollOptionId = votes[votes.length - 1].poll_option_id;
         setLocalVotes((prev) => [
           ...(prev || []),
           {
-            poll_option_id: newOption.poll_id,
+            poll_option_id: newPollOptionId,
             description: newOption.description,
             users: [],
             number_votes: 0,
