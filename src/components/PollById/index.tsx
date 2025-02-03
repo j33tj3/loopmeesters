@@ -134,7 +134,10 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
     pollOptionMutation.mutate(newOption, {
       onSuccess: (response) => {
         const votes = response.data.result.votes;
-        const newPollOptionId = votes[votes.length - 1].poll_option_id;
+        const newPollOptionId = votes.find(
+          (vote: Vote) => vote.description === newOption.description
+        )?.poll_option_id;
+
         setLocalVotes((prev) => [
           ...(prev || []),
           {
