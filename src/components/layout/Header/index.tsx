@@ -20,6 +20,7 @@ export const Header = () => {
           alt="Loopmeesters"
           width={195}
           height={30}
+          priority
         />
       </Box>
     </AppBar>
