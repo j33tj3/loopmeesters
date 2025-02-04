@@ -44,6 +44,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const queryClient = useQueryClient();
   const [localVotes, setLocalVotes] = useState<Vote[] | null>(null);
   const [newPollOption, setNewPollOption] = useState("");
+  const [optionError, setOptionError] = useState(false);
 
   const voteMutation = useMutation({
     mutationFn: (voteData: VoteData) => axios.post(`${voteUrl}${id}`, voteData),
@@ -130,6 +131,11 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
       poll_id: id,
       description: newPollOption,
     };
+
+    if (!newOption.description) {
+      setOptionError(true);
+      return;
+    }
 
     pollOptionMutation.mutate(newOption, {
       onSuccess: (response) => {
@@ -290,6 +296,8 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
           fullWidth
           value={newPollOption}
           onChange={handleNewOptionChange}
+          onFocus={() => setOptionError(false)}
+          error={optionError}
         />
         <Button
           type="button"
