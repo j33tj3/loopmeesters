@@ -12,7 +12,7 @@ export const Header = () => {
           src="/logo-wit.svg"
           alt="logo"
           width={30}
-          height={30}
+          height={34}
           className="-mt-1"
         />
         <Image

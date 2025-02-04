@@ -17,7 +17,13 @@ export const Footer: React.FC = () => {
         justifyContent: "center",
       }}
     >
-      <Image src="/slogan.svg" alt="Loopmeesters" width={205} height={16} />
+      <Image
+        src="/slogan.svg"
+        alt="Loopmeesters"
+        width={205}
+        height={15}
+        loading="lazy"
+      />
     </Box>
   );
 };
