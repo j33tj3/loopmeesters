@@ -46,7 +46,7 @@ const CreatePoll = () => {
     trainer: "",
     is_training: true,
     location: "",
-    options: [""],
+    options: ["Ben erbij"],
   });
 
   const handleChange = (e: { target: { name: string; value: string } }) => {
