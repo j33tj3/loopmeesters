@@ -3,8 +3,12 @@ import { useState } from "react";
 
 export const EnterName = ({
   onSubmit,
+  changeName,
+  name,
 }: {
   onSubmit: (name: string) => void;
+  changeName: boolean;
+  name?: string;
 }) => {
   const [nameInput, setNameInput] = useState("");
 
@@ -17,10 +21,10 @@ export const EnterName = ({
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Hoe heet jij?
+        {changeName ? `Hi ${name}` : "Hoe heet jij?"}
       </Typography>
       <TextField
-        label="Vul je naam in"
+        label={changeName ? "Pas je naam aan" : "Vul je naam in"}
         variant="outlined"
         value={nameInput}
         onChange={(e) => setNameInput(e.target.value)}

@@ -14,13 +14,13 @@ export type UserData = {
   uuid: string;
 };
 
-export default function PollPage({
+export default function PollIdPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params); // Unwrap the async params
-
+  const [changeName, setChangeName] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -39,31 +39,49 @@ export default function PollPage({
   const handleUserSubmit = (name: string) => {
     const newUserData = {
       name,
-      uuid: uuidv4(),
+      uuid: userData?.uuid ?? uuidv4(),
     };
     // Save user data object in localStorage
     localStorage.setItem("userData", JSON.stringify(newUserData));
     setUserData(newUserData);
+    setChangeName(false);
   };
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  if (!userData) {
+  if (!userData || changeName) {
     return (
       <Box sx={{ padding: { xs: 0, md: 4 } }}>
         <CardWrapper>
-          <EnterName onSubmit={handleUserSubmit} />
+          <EnterName
+            onSubmit={handleUserSubmit}
+            changeName={changeName}
+            name={userData?.name}
+          />
         </CardWrapper>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ padding: { xs: 0, md: 4 } }}>
+    <Box
+      sx={{
+        padding: { xs: 0, md: 4 },
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <CardWrapper>
-        <PollById id={id} userData={userData} />
+        <PollById
+          id={id}
+          userData={userData}
+          onChangeName={() => {
+            setChangeName(!changeName);
+          }}
+        />
       </CardWrapper>
     </Box>
   );

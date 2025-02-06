@@ -37,9 +37,14 @@ type VoteData = {
 interface PollByIdProps {
   id: string;
   userData: UserData;
+  onChangeName: () => void;
 }
 
-export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
+export const PollById: React.FC<PollByIdProps> = ({
+  id,
+  userData,
+  onChangeName,
+}) => {
   const { data, isLoading } = usePoll(id);
   const queryClient = useQueryClient();
   const [localVotes, setLocalVotes] = useState<Vote[] | null>(null);
@@ -49,7 +54,6 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
   const voteMutation = useMutation({
     mutationFn: (voteData: VoteData) => axios.post(`${voteUrl}${id}`, voteData),
     onSuccess: () => {
-      // Refetch the poll data after a vote is submitted
       queryClient.invalidateQueries({ queryKey: ["poll", id] });
     },
   });
@@ -58,7 +62,6 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
     mutationFn: (pollOptionData: { poll_id: string; description: string }) =>
       axios.post(pollOptionUrl, pollOptionData),
     onSuccess: () => {
-      // Refetch the poll data after a new option is added
       queryClient.invalidateQueries({ queryKey: ["poll", id] });
     },
   });
@@ -92,7 +95,7 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
       user_id: uuid,
       user_name: name,
       poll_option_id: vote.poll_option_id,
-      cancel_vote: userVoted, // Cancel vote if already voted
+      cancel_vote: userVoted,
     });
 
     // Optimistic update for instant feedback
@@ -310,6 +313,9 @@ export const PollById: React.FC<PollByIdProps> = ({ id, userData }) => {
           <Add />
         </Button>
       </Box>
+      <Button variant="text" fullWidth onClick={onChangeName}>
+        Naam wijzigen
+      </Button>
     </Box>
   );
 };
