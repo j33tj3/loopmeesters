@@ -16,10 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Loopmeesters",
+  title: "Loopmeesters - Ben erbij",
   description: "Samen hardlopen is leuker",
   openGraph: {
-    title: "Loopmeesters",
+    title: "Loopmeesters - Ben erbij",
     description: "Samen hardlopen is leuker",
     url: process.env.BEN_ERBIJ_BASE_URL,
     siteName: "Loopmeesters - Ben-erbij",
