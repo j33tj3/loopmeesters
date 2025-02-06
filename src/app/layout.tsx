@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${process.env.BEN_ERBIJ_BASE_URL}og.png`,
-        width: 320,
-        height: 240,
+        width: 600,
+        height: 336,
       },
     ],
     locale: "nl_NL",
