@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     locale: "nl_NL",
     type: "website",
   },
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
